@@ -1,15 +1,16 @@
 #include <iostream>
+#include <string>
 #include "Person.h"
 
 Person::Person() :name(nullptr), surname(nullptr), age(0) {}
 
 Person::Person(const char *_name, const char *_surname, int _age)
 {
-	int size = strlen(_name);
-	name = new char[size + 1];
+	int size = strlen(_name)+1;
+	name = new char[size];
 	strcpy_s(name, size, _name);
-	size = strlen(_surname);
-	surname = new char[size + 1];
+	size = strlen(_surname)+1;
+	surname = new char[size];
 	strcpy_s(surname, size, _surname);
 
 	age = _age;
@@ -18,16 +19,27 @@ Person::Person(const char *_name, const char *_surname, int _age)
 
 Person::Person(const Person &obj)
 {
-	int size = strlen(obj.name);
+	int size = strlen(obj.name)+1;
 
-	name = new char[size + 1];
+	name = new char[size];
 	strcpy_s(name, size, obj.name);
 
-	size = strlen(obj.surname);
-	surname = new char[size + 1];
+	size = strlen(obj.surname)+1;
+	surname = new char[size];
 	strcpy_s(surname, size, obj.surname);
 
 	age = obj.age;
+}
+
+Person::Person(Person && obj)
+{
+	name = obj.name;
+	surname = obj.surname;
+	age = obj.age;
+
+	obj.name = nullptr;
+	obj.surname = nullptr;
+	age = 0;
 }
 
 Person::~Person()
@@ -67,7 +79,26 @@ void Person::setSurname(const char*_surname)
 	}
 }
 
-void Person::Print()
+
+void Person::Input()
+{
+	char*str=new char;
+	std::cout << "Set name:" << std::endl;
+	std::cin >> str;
+	setName(str);
+
+	std::cout << "Set surname:" << std::endl;
+	std::cin >> str;
+	setSurname(str);
+
+	std::cout << "Set Age:" << std::endl;
+	int age;
+	std::cin >> age;
+	setAge(age);
+
+}
+
+void Person::Print()const
 {
 	std::cout << "Name: ";
 	if (name != nullptr)
@@ -90,11 +121,53 @@ void Person::Print()
 
 }
 
-void Person::InputPerson()
+Person & Person::operator=(const Person & obj)
 {
-	const char*str = "ivanuchenko";
-	std::cout << "Set name:" << std::endl;
+	if (this == &obj) { return *this; }
+	if (name != nullptr || surname != nullptr)
+	{
+		delete[]name;
+		delete[]surname;
+	}
+	int size = strlen(obj.name);
 
-	setName(str);
+	name = new char[size + 1];
+	strcpy_s(name, size, obj.name);
+
+	size = strlen(obj.surname);
+	surname = new char[size + 1];
+	strcpy_s(surname, size, obj.surname);
+
+	age = obj.age;
+
 }
 
+Person & Person::operator=(Person && obj)
+{
+	if (this == &obj) { return *this; }
+	if (name != nullptr || surname != nullptr)
+	{
+		delete[]name;
+		delete[]surname;
+	}
+
+	name = obj.name;
+	surname = obj.surname;
+	age - obj.age;
+
+	obj.name = nullptr;
+	obj.surname = nullptr;
+	age = 0;
+}
+
+std::istream & operator>>(std::istream & is, Person & obj)
+{
+	obj.InputPerson();
+	return is;
+}
+
+std::ostream & operator<<(std::ostream & os, const Person & obj)
+{
+	obj.Print();
+	return os;
+}
