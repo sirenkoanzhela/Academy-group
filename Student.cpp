@@ -9,17 +9,16 @@ Student::Student() :Person()
 	}
 }
 
-Student::Student(const char * _name, const char * _surname, int _age, const char * _phone, double _rating) :Person(_name, _surname, _age)
+Student::Student(const char* _name, const char* _surname, int _age, const char* _phone, double _rating) :Person(_name, _surname, _age)
 {
 	rating = _rating;
-
 	for (int i = 0; i < 14; i++)
 	{
 		phone[i] = _phone[i];
 	}
 }
 
-Student::Student(const Student & obj) :Person(obj.name, obj.surname, obj.age)
+Student::Student(const Student& obj) :Person(obj.name, obj.surname, obj.age)
 {
 	for (int i = 0; i < 14; i++)
 	{
@@ -28,7 +27,7 @@ Student::Student(const Student & obj) :Person(obj.name, obj.surname, obj.age)
 	rating = obj.rating;
 }
 
-Student::Student(Student && obj):Person(obj)
+Student::Student(Student&& obj) :Person(obj)
 {
 	std::cout << "TEST CONSTRUCTOR MOVING";
 	for (int i = 0; i < 14; i++)
@@ -46,12 +45,12 @@ double Student::getRating() const
 	return rating;
 }
 
-const char * Student::getPhone() const
+const char* Student::getPhone() const
 {
 	return phone;
 }
 
-void Student::setPhone(const char * _phone)
+void Student::setPhone(const char* _phone)
 {
 	if (strlen(_phone) > 14) { return; }
 	for (int i = 0; i < 14; i++)
@@ -62,7 +61,7 @@ void Student::setPhone(const char * _phone)
 
 void Student::setRating(double average)
 {
-	if (average<0 || average>5.0)return;
+	if (average < 0 || average>5.0)return;
 	rating = average;
 }
 
@@ -97,7 +96,7 @@ void Student::Print() const
 
 void Student::Input()
 {
-	char*str = new char;
+	char* str = new char;
 	std::cout << "Set name:" << std::endl;
 	std::cin >> str;
 	setName(str);
@@ -107,7 +106,7 @@ void Student::Input()
 	setSurname(str);
 
 	std::cout << "Set Age:" << std::endl;
-	int temp;
+	double temp;
 	std::cin >> temp;
 	setAge(temp);
 
@@ -116,13 +115,16 @@ void Student::Input()
 	setRating(temp);
 
 	std::cout << "Set Phone:" << std::endl;
-	std::cin >> str;
-	if (strlen(str) == 14) setPhone(str);
+	do {
+		std::cin >> str;
+	} while (strlen(str) != 14);
+	//const char* str_temp = str;
+	setPhone(str);
 }
 
-Student & Student::operator=(const Student & obj)
+Student& Student::operator=(const Student& obj)
 {
-	
+
 	if (this == &obj) { return *this; }
 	if (name != nullptr || surname != nullptr)
 	{
@@ -144,10 +146,10 @@ Student & Student::operator=(const Student & obj)
 	{
 		phone[i] = obj.phone[i];
 	}
-
+	return *this;
 }
 
-Student & Student::operator=(Student && obj)
+Student& Student::operator=(Student&& obj)
 {
 	if (this == &obj) { return *this; }
 	if (name != nullptr || surname != nullptr)
@@ -164,23 +166,23 @@ Student & Student::operator=(Student && obj)
 
 	name = obj.name;
 	surname = obj.surname;
-	age - obj.age;
+	age = obj.age;
 	rating = obj.rating;
 
 	obj.name = nullptr;
 	obj.surname = nullptr;
 	age = 0;
 	rating = 0;
-
+	return *this;
 }
 
-std::istream & operator>>(std::istream & is, Student & obj)
+std::istream& operator>>(std::istream& is, Student& obj)
 {
 	obj.Input();
 	return is;
 }
 
-std::ostream & operator<<(std::ostream & os, const Student & obj)
+std::ostream& operator<<(std::ostream& os, const Student& obj)
 {
 	obj.Print();
 	return os;
