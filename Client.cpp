@@ -19,7 +19,10 @@ int main()
 
 	Student st2 = st;
 	st.Print();
-
-	
+	std::cout << "----------" << std::endl;
+	st2.Input();
+	st2.Print();
+	system("pause");
+	//destructor error
 	return 0;
 }
