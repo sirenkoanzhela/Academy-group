@@ -139,7 +139,7 @@ Person & Person::operator=(const Person & obj)
 	strcpy_s(surname, size, obj.surname);
 
 	age = obj.age;
-
+	return *this;
 }
 
 Person & Person::operator=(Person && obj)
@@ -153,16 +153,17 @@ Person & Person::operator=(Person && obj)
 
 	name = obj.name;
 	surname = obj.surname;
-	age - obj.age;
+	age = obj.age;
 
 	obj.name = nullptr;
 	obj.surname = nullptr;
 	age = 0;
+	return *this;
 }
 
 std::istream & operator>>(std::istream & is, Person & obj)
 {
-	obj.InputPerson();
+	obj.Input();
 	return is;
 }
 
