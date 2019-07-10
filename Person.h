@@ -1,24 +1,25 @@
 #pragma once
 #include <iostream>
+#include <string>
 
 class Person
 {
 protected:
-	char*name;
-	char*surname;
+	std::string name;
+	std::string surname;
 	int age;
 public:
 	Person();
-	Person(const char*, const char*, int);
+	Person(std::string, std::string, int);
 	Person(const Person&);
 	Person(Person &&obj);
 	~Person();
 
-	char*getName()const
+	std::string getName()const
 	{
 		return name;
 	}
-	char*getSurname()const
+	std::string getSurname()const
 	{
 		return surname;
 	}
@@ -28,11 +29,11 @@ public:
 	}
 
 	void setAge(int);
-	void setName(const char*);
-	void setSurname(const char*);
+	void setName(const std::string);
+	void setSurname(const std::string);
 
 	void Input();
-	void Print()const;
+	virtual void Print()const;
 
 	Person& operator=(const Person &obj);
 	Person& operator=(Person &&obj);

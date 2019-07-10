@@ -1,28 +1,21 @@
 #include <iostream>
-#include "Person.h"
+#include "Academy_Group.h"
 #include "Student.h"
-
 
 
 int main()
 {
-	/*Person p;
-	p.Input();
-	p.Print();
 
-	Person p2;
-	std::cin >> p2;
-	std::cout << p2;*/
+	AcademyGroup*group_1 = new AcademyGroup;
 
-	Student st("Alexa", "Prince", 23, "12345678901230", 4.5);
-	st.Print();
+	for (int i = 0; i < 3; i++) 
+	{
+		Student*st = new Student("temp_name", "temp_surname", 23, "12345678901234", 4.4);
+		//st->Input();
+		group_1->AddStudents(st);
+	}
+	group_1->Print();
 
-	Student st2 = st;
-	st.Print();
-	std::cout << "----------" << std::endl;
-	st2.Input();
-	st2.Print();
-	system("pause");
-	//destructor error
+	
 	return 0;
 }

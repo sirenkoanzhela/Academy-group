@@ -10,7 +10,7 @@ public:
 	AcademyGroup(const AcademyGroup& obj);
 	AcademyGroup(AcademyGroup &&obj);
 	~AcademyGroup();
-	void AddStudents();
+	void AddStudents(Student*&st);
 	void DeleteStudent();
 	void EditStudent();
 	void Print();

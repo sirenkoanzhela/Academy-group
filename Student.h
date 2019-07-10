@@ -3,16 +3,16 @@
 
 class Student :public Person
 {
-	char phone[14];
+	std::string phone;
 	double rating;
 public:
 	Student();
-	Student(const char* name, const char* surname, int age, const char* _phone, double rating);
+	Student(std::string, std::string, int, std::string , double);
 	Student(const Student& obj);
 	Student(Student&& obj);
 	double getRating() const;
-	const char* getPhone() const;
-	void setPhone(const char* phone);
+	std::string getPhone() const;
+	void setPhone(std::string phone);
 	void setRating(double average);
 	void Print() const;
 	void Input();
