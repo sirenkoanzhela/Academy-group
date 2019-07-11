@@ -5,30 +5,27 @@ using namespace std; //for testing
 
 AcademyGroup::AcademyGroup() :pSt(nullptr), count(0) {}
 
-AcademyGroup::AcademyGroup(const AcademyGroup & obj)
+AcademyGroup::AcademyGroup(const AcademyGroup& obj)
 {
 	count = obj.count;
-	const short int k = 0;
 
-	pSt = new Student*[count];
+	pSt = new Student * [count];
 
 	for (int i = 0; i < count; i++)
 	{
-		pSt[k][i] = obj.pSt[k][i];
+		pSt[i] = obj.pSt[i];
 	}
 }
 
-AcademyGroup::AcademyGroup(AcademyGroup && obj)
+AcademyGroup::AcademyGroup(AcademyGroup&& obj) noexcept
 {
 	count = obj.count;
-	const short int k = 0;
-
-	pSt = new Student*[count];
+	pSt = new Student * [count];
 
 	for (int i = 0; i < count; i++)
 	{
-		pSt[k][i] = obj.pSt[k][i];
-		obj.pSt[k] = nullptr;
+		pSt[i] = obj.pSt[i];
+		obj.pSt[i] = nullptr;
 	}
 	obj.count = 0;
 }
@@ -37,33 +34,25 @@ AcademyGroup::~AcademyGroup()
 {
 	for (int i = 0; i < count; i++)
 	{
-		delete[] pSt[i];
+		delete pSt[i];
 	}
 }
 
-void AcademyGroup::AddStudents(Student*&st)
+void AcademyGroup::AddStudents(Student*& st)
 {
-	if (pSt == nullptr) {
+	Student** temp = new Student * [count];
 
-		pSt = new Student*;
-		pSt[count] = st;
-		count++;
-		return;
+	if (pSt != nullptr) {
+
+		for (int i = 0; i < count; i++)
+		{
+			temp[i] = pSt[i];
+		}
 	}
 
-	Student**temp = new Student*[count];
-	for (int i = 0; i < count; i++)
-	{
-		temp[i] = pSt[i];
-
-	}
-	pSt = new Student*[count + 1];
-
-	for (int i = 0; i < count; i++)
-	{
-		pSt[i] = temp[i];
-	}
-	pSt[++count] = st;
+	temp[count] = st;
+	count++;
+	pSt = temp;
 }
 
 void AcademyGroup::Print()
@@ -74,5 +63,3 @@ void AcademyGroup::Print()
 		std::cout << std::endl;
 	}
 }
-
-
