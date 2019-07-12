@@ -1,8 +1,6 @@
-#include <iostream>
-#include <string>
 #include "Person.h"
 
-Person::Person() :age(0),name(nullptr),surname(nullptr) {}
+Person::Person() :age(0) {}
 
 Person::Person(std::string _name, std::string _surname, int _age)
 {
@@ -11,14 +9,14 @@ Person::Person(std::string _name, std::string _surname, int _age)
 	age = _age;
 }
 
-Person::Person(const Person &obj)
+Person::Person(const Person& obj)
 {
 	name = obj.name;
 	surname = obj.surname;
 	age = obj.age;
 }
 
-Person::Person(Person && obj)
+Person::Person(Person&& obj)noexcept
 {
 	age = 0;
 	name = obj.name;
@@ -51,6 +49,8 @@ void Person::setSurname(const std::string _surname)
 void Person::Input()
 {
 	std::string str;
+
+	std::cout << "Set name:" << std::endl;
 	std::getline(std::cin, str);
 	setName(str);
 
@@ -77,7 +77,7 @@ void Person::Print()const
 
 }
 
-Person & Person::operator=(const Person & obj)
+Person& Person::operator=(const Person& obj)
 {
 	if (this == &obj) { return *this; }
 
@@ -88,7 +88,7 @@ Person & Person::operator=(const Person & obj)
 	return *this;
 }
 
-Person & Person::operator=(Person && obj)
+Person& Person::operator=(Person&& obj)noexcept
 {
 	if (this == &obj) { return *this; }
 	name = obj.name;
@@ -102,13 +102,13 @@ Person & Person::operator=(Person && obj)
 	return *this;
 }
 
-std::istream & operator>>(std::istream & is, Person & obj)
+std::istream& operator>>(std::istream& is, Person& obj)
 {
 	obj.Input();
 	return is;
 }
 
-std::ostream & operator<<(std::ostream & os, const Person & obj)
+std::ostream& operator<<(std::ostream& os, const Person& obj)
 {
 	obj.Print();
 	return os;

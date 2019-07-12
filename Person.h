@@ -12,7 +12,7 @@ public:
 	Person();
 	Person(std::string, std::string, int);
 	Person(const Person&);
-	Person(Person &&obj);
+	Person(Person&& obj)noexcept;
 	~Person();
 
 	std::string getName()const
@@ -35,9 +35,9 @@ public:
 	void Input();
 	virtual void Print()const;
 
-	Person& operator=(const Person &obj);
-	Person& operator=(Person &&obj);
+	Person& operator=(const Person& obj);
+	Person& operator=(Person&& obj)noexcept;
 
-	friend std::istream& operator>>(std::istream &is, Person& obj);
-	friend std::ostream& operator<<(std::ostream &os, const Person& obj);
+	friend std::istream& operator>>(std::istream& is, Person& obj);
+	friend std::ostream& operator<<(std::ostream& os, const Person& obj);
 };
